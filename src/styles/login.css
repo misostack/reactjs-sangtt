@@ -1,0 +1,26 @@
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+}
+.loginForm{
+
+padding: 15px;
+
+}
+.loginForm h1{
+    text-align: center;
+    width: 100%
+}
+.form-field{
+    padding: 5px 0px;
+    text-align: center;
+
+}
+
+.loader {
+font-size:100pt;
+color: red;
+}
