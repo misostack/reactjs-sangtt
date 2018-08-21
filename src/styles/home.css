@@ -2,8 +2,43 @@
     text-align: center
 }
 
+#button-filter{
+    
+	width: 50px;
+	height: 40px;
+	display: none;
+	text-align:center;
+    line-height: 40px;
+    float: left;
+}
+.filterBox{
+    float: left;
+}
+.nameProcess{
+    display: none;
+}
 @media only screen and (max-width: 768px) {
     .title{
         text-align: left
     }
+    .filter-title, .filterBox, .TooltipClass{
+        display: none;
+    }
+    #button-filter, .nameProcess{
+        display: block;
+    }
+    .button-addnew{
+        text-align: right;
+        width: calc(100% - 100px);
+        float: right;
+    }
+
+    .show-filter:hover .addnew{
+        display: none;
+    }
+    
+    .show-filter:hover .filterBox{
+        display: block;
+    }
+
 }

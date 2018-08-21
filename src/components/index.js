@@ -1,5 +1,6 @@
 export { default as Login } from './login/Login';
 export { default as AuthLogin } from './login/AuthLogin';
+export { default as SignUp } from './login/SignUp';
 export { default as ForgotPassword } from './login/ForgotPassword';
 
 export { default as Home } from './home/Home';

@@ -19,6 +19,9 @@ class Login extends Component {
   forgotPass= () => {
     this.props.history.push('/forgotpassword');
   }
+  signUp= () => {
+    this.props.history.push('/signup');
+  }
   componentDidMount(){
    if(this.props.login.status) this.props.history.push('/');
   }
@@ -32,7 +35,7 @@ class Login extends Component {
     let { email, password} = this.state;
     let { login } = this.props;
     return(
-      <div className="container">
+      <div className="loginContainer">
         {login.loading ?<i className="fa fa-circle-o-notch fa-spin loader"></i>:
 
         <div className="loginForm">
@@ -46,6 +49,7 @@ class Login extends Component {
           </div>
           <div className="form-field">
           <Button className="btn btn-success"  id="btnLogin" onClick={this.onLogin}>Login</Button>
+          <Button className="ml-3 btn btn-danger"   id="btnLogin" onClick={this.signUp}>Sign up</Button>
 
           </div>
           <div className="form-field">

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import store from '../../store';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { Login, AuthLogin, ForgotPassword } from '../../containers';
+import { Login, AuthLogin, ForgotPassword, SignUp } from '../../containers';
 import Content from '../screen/Content';
 
 class App extends Component {
@@ -12,6 +12,7 @@ class App extends Component {
           <BrowserRouter>
             <Switch>
               <Route path='/login' component={ Login } />              
+              <Route path='/signup' component={ SignUp } />                         
               <Route path='/forgotpassword' component={ ForgotPassword } />              
               <AuthLogin component={ Content }/>
             </Switch>

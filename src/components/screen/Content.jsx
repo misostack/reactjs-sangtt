@@ -9,7 +9,7 @@ class Content extends Component {
 		return (
 			<div>
 				<Menu />
-				<div className="col-md-12 main">
+				<div className="container main">
 					<Switch>
 						<Route exact path='/' component={Home} />
 						<Route path='/user' component={User} />

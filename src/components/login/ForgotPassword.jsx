@@ -62,7 +62,7 @@ class ForgotPassword extends Component {
 
 		let { status } = this.state;
 		return (
-			<div className="container">
+			<div className="forgotContainer">
 				<div className="forgotPassword">
 					<h1>FOTP pools</h1>
 					{!status ? this.formEmail() : this.formPassword()}
