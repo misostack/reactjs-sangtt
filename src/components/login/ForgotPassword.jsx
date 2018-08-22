@@ -27,7 +27,7 @@ class ForgotPassword extends Component {
 
 	onSave = () => {
 		let { email, password, repassword } = this.state;
-		password === repassword ? this.props.changePassword({email,password}) : alert('Passwords do not overlap')
+		password === repassword ? this.props.changeInfoUserAction({email,password}) : alert('Passwords do not overlap')
 	}
 
 	formEmail = () => {

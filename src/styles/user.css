@@ -1,8 +1,8 @@
-.home .title{
+.title{
     text-align: center
 }
 
-.home  #button-filter{
+#button-filter{
     
 	width: 50px;
 	height: 40px;
@@ -11,47 +11,45 @@
     line-height: 40px;
     float: left;
 }
-.home .filterBox{
+.filterBox{
     float: left;
 }
-.home .nameProcess{
-    display: none;
-}
-
-.home .tdId{
+.tdId{
     width: 10%;
 }
-.home .tdEmail, .home .tdUser, .home .tdButton{
+.tdEmail, .tdUser, .tdButton{
     width: 30%;
 }
 @media only screen and (max-width: 768px) {
-    .home .title{
+    .title{
         text-align: left
     }
-    .home .filter-title, .home .filterBox, .home .TooltipClass{
+    .filter-title, .filterBox, .TooltipClass{
         display: none;
     }
-    .home #button-filter, .home .nameProcess{
+    #button-filter{
         display: block;
     }
-    .home .button-addnew{
+    .button-addnew{
         text-align: right;
         width: calc(100% - 100px);
         float: right;
     }
 
-    .home .show-filter:hover .home .addnew{
+    .show-filter:hover .addnew{
         display: none;
     }
     
-    .home .show-filter:hover .home .filterBox{
+    .show-filter:hover .filterBox{
         display: block;
     }
-    .home .tdEmail, .home .tdId, .home .tdUser{
+    .tdUser{
+        width:40%;
+    }
+    .tdEmail, .tdId{
         display: none;
     }
-    .home .tdButton{
-        width: 100%;
+    .tdButton{
+        width: 50% !important;
     }
-
 }

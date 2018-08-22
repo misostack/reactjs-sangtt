@@ -1,6 +1,6 @@
 import { ForgotPassword } from '../../components';
 import { connect } from 'react-redux'
-import { changePassword } from '../../actions/login';
+import { changeInfoUserAction } from '../../actions/user';
 import { bindActionCreators } from 'redux'
 function mapStateToProps ({login, user}) {
     return {
@@ -11,7 +11,7 @@ function mapStateToProps ({login, user}) {
   
   function mapDispatchToProps (dispatch) {
     return {
-      changePassword: bindActionCreators(changePassword, dispatch)
+      changeInfoUserAction: bindActionCreators(changeInfoUserAction, dispatch)
     }
   }
   

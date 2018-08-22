@@ -1,11 +1,10 @@
 import { SignUp } from '../../components';
 import { connect } from 'react-redux'
-import { signUpAction } from '../../actions/login';
+import { signUpAction } from '../../actions/user';
 import { bindActionCreators } from 'redux';
-function mapStateToProps ({login, user}) {
+function mapStateToProps ({login}) {
     return {
-        login,
-        user
+        login
     }
   }
   

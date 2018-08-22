@@ -99,7 +99,7 @@ class Home extends Component {
 
   render(){
 
-    let { user } = this.props;
+    let user = JSON.parse(localStorage.getItem('user'));
     let { sName, sEmail, sDate, date, addNew, selectUserData, startDate, endDate, pagination, maxRow, edit, firstTime } = this.state;
     let presense = JSON.parse(localStorage.getItem('presense'));
 
@@ -125,7 +125,7 @@ class Home extends Component {
     }
     selectUser = user.map(e=>({value:e.email, label: `${e.email}-${e.username}`}))
     return (
-      <div>
+      <div className="home">
         <h1 className="title">Persense</h1>
         <div className="filter">
 
@@ -188,16 +188,15 @@ class Home extends Component {
               return(
                 <Fragment key={key}>
               <tr >
-                <td width="10%">{key+1}</td>
-                <td width="30%">{e.username}</td>
-                <td width="30%">{e.email}</td>
-                <td width="30%">
+                <td className="tdId">{key+1}</td>
+                <td className="tdUser">{e.username}</td>
+                <td className="tdEmail">{e.email}</td>
+                <td className="tdButton">
                   <Tooltip placement="bottom" isOpen={this.state.tooltipOpen} target={`Tooltip-${key}`} toggle={this.toggle} className="TooltipClass">
                     {`${e.startDate} - ${e.endDate}`}
                   </Tooltip>
                   <Progress value={phantram} id={`Tooltip-${key}`} onClick={() => this.showEdit(key)}>
                     <small className="nameProcess">{e.username}</small>
-
                   </Progress>
                   
                 </td>

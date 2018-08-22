@@ -8,7 +8,8 @@ class SignUp extends Component {
     this.state = {
       username: "admin",
       email: "admin@dirox.net",
-      password: "admin"
+      password: "admin",
+      repassword: "admin"
     }
   }
 
@@ -18,7 +19,7 @@ class SignUp extends Component {
   }
 
   render() {
-    let { email, password, username } = this.state;
+    let { email, password, username, repassword } = this.state;
     let { login } = this.props;
     return (
       <div className="loginContainer">
@@ -34,6 +35,9 @@ class SignUp extends Component {
             </div>
             <div className="form-field">
               <Input placeholder="password" type="password" value={password} onChange={e => this.setState({ password: e.target.value })} />
+            </div>
+            <div className="form-field">
+              <Input placeholder="password" type="repassword" value={repassword} onChange={e => this.setState({ repassword: e.target.value })} />
             </div>
             <div className="form-field">
               <Button className="ml-3 btn btn-sucess" id="btnLogin" onClick={this.onSignUp}>Sign up</Button>

@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { Tooltip, Progress  } from 'reactstrap';
 import ReactPaginate from 'react-paginate';
 
-import '../../styles/home.css';
+import '../../styles/user.css';
 
 
 class User extends Component {
@@ -12,9 +11,9 @@ class User extends Component {
       sName:"",
       sEmail:"",
       username:"",
-      email:"", 
-      password:"",
-      repassword:"",
+      email: "",
+      password: "",
+      repassword: "",
       firstTime: true,
       edit: -1,
       pagination:0,
@@ -48,22 +47,54 @@ class User extends Component {
       email:"", 
       password:"",
       firstTime: true,
-      addNew: false
+      addNew: false,
     });
   }
   onAddNewUser = () => {
     let { email, username, password, repassword } = this.state;
+    if(password === repassword){
+      let result = this.props.signUpAction({ username, email, password });
+      if(result)this.setState({
+        username:"",
+        email: "",
+        password: "",
+        repassword: "",
+        firstTime: true,
+        edit: -1,
+        addNew: false,
+      })
+    }
+    else alert('Pass not match');
   }
-  onDeleteUser = () => {
-    let { email} = this.state;
+  onDeleteUser = (email) => {
+    let result = this.props.removeUserAction(email);
+    if(result)this.setState({
+      username:"",
+      email: "",
+      password: "",
+      repassword: "",
+      firstTime: true,
+      edit: -1,
+      addNew: false,
+    })
   }
-  onEditUser = () => {
-    let { email, username, password } = this.state;
+  onEditUser = (email) => {
+    let {  username } = this.state;
+    let result = this.props.changeInfoUserAction({email, username});
+    if(result)this.setState({
+      username:"",
+      email: "",
+      password: "",
+      repassword: "",
+      firstTime: true,
+      edit: -1,
+      addNew: false,
+    })
   }
 
   render(){
 
-    let { user } = this.props;
+    let user = JSON.parse(localStorage.getItem('user'));
     let { sName, sEmail, addNew, email, username, password, pagination, maxRow, edit, firstTime, repassword } = this.state;
 
     let filter = [...user];
@@ -88,13 +119,12 @@ class User extends Component {
           
             <div className="show-filter">
               <a href="#" id="button-filter"><i className="fa fa-bars"></i></a>
-              
               <div className="col-md-9 filterBox pull-left">
                 <div className="col-md-4 pull-left">
-                  <input type="text" placeholder="Search By Name" className="form-control" value={ sName } onChange={e=>this.setState({sName: e.target.value})}/> 
+                  <input type="text" placeholder="Search By Name" className="form-control"  value={ sName } onChange={e=>this.setState({ sName: e.target.value })}/> 
                 </div>
                 <div className="col-md-4 pull-left">
-                  <input type="text" placeholder="Search By Email" className="form-control" value={ sEmail } onChange={e=>this.setState({sEmail: e.target.value})}/> 
+                  <input type="text" placeholder="Search By Email" className="form-control" value={ sEmail } onChange={e=>this.setState({ sEmail: e.target.value })}/> 
                 </div>         
               </div>
             </div>
@@ -113,24 +143,35 @@ class User extends Component {
           <div className="col-md-3 pull-left">
              <input type="password" placeholder="repassword"  className="form-control" value={repassword} onChange={e=>this.setState({repassword: e.target.value})}/> 
           </div>
-          <button className="btn btn-success" onClick={this.onAddNewPresense}> Save</button>        
+          <button className="btn btn-success" onClick={this.onAddNewUser}> Save</button>        
         </div>:null}
 
-        <table className="table table-striped">
+        <table className="table">
           <tbody>
             {filter.slice(pagination * maxRow , pagination *maxRow + 2).map((e, key)=>{
               return(
 
               <tr key={key}>
-                <td width="10%">{key+1}</td>
-                <td width="30%"><input type="text" className="form-control" style={{border:"none"}} value={e.username}/> </td>
-                <td width="30%"><input type="text" disabled className="form-control" style={{border:"none"}} value={e.email}/></td>
-                <td width="30%">
-                    <button className="btn btn-warning">Edit</button>
-                    <button className="btn btn-danger">Delete</button>
+                <td className="tdId">{key+1}</td>
+                <td className="tdUser">
+                {edit === key ? 
+                  <input type="text" className="form-control" style={{border:"none"}} value={firstTime ? e.username: username} onChange={e => this.setState({username:e.target.value, firstTime: false})}/>
+                  : e.username
+                }
+                 </td>
+                <td className="tdEmail">{e.email}</td>
+                <td className="tdButton" >
+                {edit === key
+                  ?<div >
+                    <button className="btn btn-success" onClick={() =>this.onEditUser(e.email)}>Save</button>  &nbsp;
+                    <button className="btn btn-warning" onClick={e => this.setState({edit: -1})}>Cancel</button> 
+                  </div>
                   
-                </td>
-                
+                  :<div>
+                    <button className="btn btn-warning" onClick={e => this.showEdit(key)}>Edit</button> &nbsp;
+                    <button className="btn btn-danger" onClick={() => this.onDeleteUser(e.email)}>Delete</button>  
+                  </div>}
+                </td>             
               </tr>
 
               )}
@@ -142,6 +183,8 @@ class User extends Component {
           marginPagesDisplayed={1}  
           pageRangeDisplayed={1} 
           pageCount={filter.length/ maxRow}/>
+
+ 
       </div>
     );
   }
