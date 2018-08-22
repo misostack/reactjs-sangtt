@@ -78,22 +78,32 @@ class Home extends Component {
   onAddNewPresense = () => {
     let { selectUserData, startDate, endDate, date } = this.state;
     let presense = JSON.parse(localStorage.getItem('presense'));
-    presense.push({email:selectUserData.value, startDate, endDate, date });
+    let auth = presense.filter(e=> e.email === selectUserData.value && e.date === date).length;
+    if(!auth){
+      presense.push({email:selectUserData.value, startDate, endDate, date });
+      localStorage.setItem('presense', JSON.stringify(presense));
+      this.setState({
+        startDate: "",
+        endDate: "",
+        date: "",
+        selectUserData: "",
+        addNew: false
+      })
+      alert('Add new success');
+    }
+    else alert('Date duplicate');
+  }
+
+  saveDateData = ({email, date}) => {
+    let {startDate, endDate} = this.state;
+    let presense = JSON.parse(localStorage.getItem('presense'));
+    presense = presense.map(e =>(e.email === email && e.date === date ?{...e, startDate, endDate } : e));
     localStorage.setItem('presense', JSON.stringify(presense));
     this.setState({
       startDate: "",
       endDate: "",
-      date: "",
-      selectUserData: "",
-      addNew: false
+      edit:-1
     })
-  }
-
-  saveDateData = (data) => {
-    let {startDate, endDate} = this.state;
-    let presense = JSON.parse(localStorage.getItem('presense'));
-    presense = presense.map(e =>(e.email === data ?{...e, startDate, endDate } : e));
-    localStorage.setItem('presense', JSON.stringify(presense));
     alert('success');
   }
 
@@ -206,11 +216,11 @@ class Home extends Component {
                 <td className={"text-center " + (key === edit  ? "" : "d-none" ) } colSpan="4" width="100%">
                   
                   <div className="col-6 pull-left text-center">
-                    <input type="text" placeholder="start hours hh:mm" className="form-control col-md-8 " value={ firstTime ? startDate : this.state.startDate } onChange={e=>this.setState({startDate: e.target.value,firstTime: false, endDate:firstTime ? endDate : this.state.endDate})}/> 
+                    <input type="text" placeholder="start hours hh:mm" className="form-control col-md-8 " value={ firstTime ? e.startDate : this.state.startDate } onChange={e=>this.setState({startDate: e.target.value,firstTime: false, endDate:firstTime ? endDate : this.state.endDate})}/> 
                   </div>
                   <div className="col-6 pull-left text-center">
                     
-                    <input type="text" placeholder="end hour hh:mm" className="form-control  col-md-8 " value={ firstTime ? endDate : this.state.endDate } onChange={e=>this.setState({endDate: e.target.value, firstTime: false,startDate: firstTime ? startDate : this.state.startDate })}/> 
+                    <input type="text" placeholder="end hour hh:mm" className="form-control  col-md-8 " value={ firstTime ? e.endDate : this.state.endDate } onChange={e=>this.setState({endDate: e.target.value, firstTime: false,startDate: firstTime ? startDate : this.state.startDate })}/> 
                   </div>
                  <div className="row"></div>
                   
@@ -218,7 +228,7 @@ class Home extends Component {
                     <button className="btn btn-danger" onClick={() =>this.showEdit(-1)}>Cancel</button>
                   </div>
                   <div className="col-6 col-md-6 pull-left p-3">
-                    <button className="btn btn-success" onClick={() =>this.saveDateData(e.email)}>Save</button>
+                    <button className="btn btn-success" onClick={() =>this.saveDateData({email: e.email, date: e.date})}>Save</button>
 
                   </div>
                 </td>

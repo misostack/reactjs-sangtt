@@ -18,7 +18,7 @@ class ForgotPassword extends Component {
 		 
 	}
 	onRequest = () => {
-		let { user } = this.props;
+		let user = !!localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : [];
 		let { email } = this.state;
 
 		let authEmail = user.filter(e => e.email === email).length;
@@ -27,7 +27,12 @@ class ForgotPassword extends Component {
 
 	onSave = () => {
 		let { email, password, repassword } = this.state;
-		password === repassword ? this.props.changeInfoUserAction({email,password}) : alert('Passwords do not overlap')
+		if(password === repassword){
+			let result =this.props.changeInfoUserAction({email,password});
+			if(result) this.props.history.push('/');
+		}
+			
+		else alert('Passwords do not overlap')
 	}
 
 	formEmail = () => {
@@ -47,10 +52,10 @@ class ForgotPassword extends Component {
 		return (
 			<div className="form-group">
 					<h4>enter your new password</h4>
-					<input className="form-control" placeholder="password" value={password} onChange={e => this.setState({ password: e.target.value })} />
+					<input type="password" className="form-control" placeholder="password" value={password} onChange={e => this.setState({ password: e.target.value })} />
 				
 				
-					<input className="form-control" placeholder="repassword" value={repassword} onChange={e => this.setState({ repassword: e.target.value })} />
+					<input type="password" className="form-control" placeholder="repassword" value={repassword} onChange={e => this.setState({ repassword: e.target.value })} />
 				<div className="form-field">
 					<button className="btn btn-success" id="btnLogin" onClick={this.onSave}>Save</button>
 
