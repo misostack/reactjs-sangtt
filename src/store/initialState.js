@@ -1,12 +1,18 @@
+import { getTokenLocal } from 'utils/localStorage'
+
+
 const initialState = () => {
 
-    let login = !!localStorage.getItem('login') ? JSON.parse(localStorage.getItem('login')) : {status: false};
-    
-    // let user = [{ username:"admin", email:"admin@dirox.net", password:"admin" }];
-    // if(!localStorage.getItem('user'))localStorage.setItem('user',JSON.stringify(user));
+  let token = getTokenLocal();
+  token = !!token ? token : "";
+  // let user = [{ username:"admin", email:"admin@dirox.net", password:"admin" }];
+  // if(!localStorage.getItem('user'))localStorage.setItem('user',JSON.stringify(user));
 
-    return({ 
-        login
-    })
+  return({ 
+    auth: {
+      token,
+      loading: false,
+    }
+  })
 };
 export default initialState;

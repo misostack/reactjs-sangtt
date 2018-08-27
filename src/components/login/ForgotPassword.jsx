@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import '../../styles/forgotpassword.css';
+import Notification from 'components/notifications'
+
+import 'styles/Login.scss'
 
 class ForgotPassword extends Component {
 	constructor(props) {
@@ -18,21 +20,28 @@ class ForgotPassword extends Component {
 		 
 	}
 	onRequest = () => {
-		let user = !!localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : [];
 		let { email } = this.state;
-
-		let authEmail = user.filter(e => e.email === email).length;
-		authEmail > 0 ? this.setState({ status: true }) : alert('Email not exist');
+		let { exitEmailAction } = this.props;
+		exitEmailAction(email).then(
+			() =>  this.setState({ status: true })
+		)
+		.catch( err => Notification.e( err.message, 'error') )
 	}
 
 	onSave = () => {
 		let { email, password, repassword } = this.state;
 		if(password === repassword){
-			let result =this.props.changeInfoUserAction({email,password});
-			if(result) this.props.history.push('/');
+			this.props.changeInfoUserAction({email,password})
+			.then(
+				()=>{
+					Notification.s('redirec to Login page ', 'Change success', 3000)
+					this.props.history.push('/')
+				}
+			)
+			.catch( err => Notification.e( err.message, 'error') )
 		}
 			
-		else alert('Passwords do not overlap')
+		else Notification.e('Passwords do not overlap', 'error')
 	}
 
 	formEmail = () => {

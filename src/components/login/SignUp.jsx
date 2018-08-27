@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Input, Button } from 'reactstrap';
-import '../../styles/login.css';
+import Notification from 'components/notifications'
+
+import 'styles/Login.scss';
 
 class SignUp extends Component {
   constructor(props) {
@@ -14,16 +16,23 @@ class SignUp extends Component {
   }
 
   onSignUp = () => {
-    let result = this.props.signUpAction(this.state);
-    if(result) this.props.history.push('/login');
+    let { repassword, ...rest} = this.state ;
+    this.props.signUpAction({...rest})
+    .then(
+      ()=>{
+        Notification.s('redirec to Login page ', 'Signup success', 3000)
+        this.props.history.push('/')
+      }
+    )
+    .catch( err => Notification.e( err.message, 'error') )
   }
 
   render() {
     let { email, password, username, repassword } = this.state;
-    let { login } = this.props;
+    let { auth } = this.props;
     return (
       <div className="loginContainer">
-        {login.loading ? <i className="fa fa-circle-o-notch fa-spin loader"></i> :
+        {auth.loading ? <i className="fa fa-circle-o-notch fa-spin loader"></i> :
 
           <div className="loginForm">
             <h1>FOTP pools</h1>
@@ -40,7 +49,7 @@ class SignUp extends Component {
               <Input placeholder="password" type="repassword" value={repassword} onChange={e => this.setState({ repassword: e.target.value })} />
             </div>
             <div className="form-field">
-              <Button className="ml-3 btn btn-sucess" id="btnLogin" onClick={this.onSignUp}>Sign up</Button>
+              <Button className="ml-3 btn-success" id="btnLogin" onClick={this.onSignUp}>Sign up</Button>
             </div>
           </div>}
       </div>

@@ -1,4 +1,5 @@
 import { LOGIN_START, LOGIN_FAILS, LOGIN_SUCCESS } from '../constants';
+import { removeToken, getTokenLocal } from 'utils/localStorage';
 
 export const loginStart = () => {
 	return {
@@ -11,39 +12,56 @@ export function loginfails() {
 		type: LOGIN_FAILS
 	}
 }
-export function loginSuccess() {
+export function loginSuccess(token) {
 	return {
-		type: LOGIN_SUCCESS
+		type: LOGIN_SUCCESS,
+		payload: token
 	}
 }
 
 
 export function logoutAction(){
 	return (dispatch, getState) => {
-		localStorage.removeItem('login');
+		localStorage.removeItem('auth');
 		dispatch(loginfails());
 	}
 }
 
 export function loginAction({ email, password }) {
 	return (dispatch, getState) => {
-		let user = !!localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : []
+	
 		dispatch(loginStart());
+		return loginApi({email, password})
+		.then(
+			res =>{
+				dispatch(loginSuccess(res.token))
+				return res
+			}
+		)
+		.catch(
+				err =>{
+					dispatch(loginfails());
+					throw new Error(err);
+				} 
+		)	
+	}
+}
+//fake api
+	const loginApi = ({ email, password }) =>(
+	new Promise(function(resolve, reject) {
+		let user = !!localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : []
 		let auth = user.filter(e => e.email === email && e.password === password).length;
 		setTimeout(function(){
 			if(auth > 0){
-				dispatch(loginSuccess());	
-				localStorage.setItem("login", JSON.stringify({status: true}));
+				localStorage.setItem("auth", JSON.stringify({token:"123"}));
+				resolve({token:"123"})
 			}
 			else{
-				dispatch(loginfails());
-				alert('Wrong username or password')
+				reject(new Error('Wrong email or password'))
 			}	
 		}, 500);
-		
-	}
-}
-
+	})
+)
 
 
 

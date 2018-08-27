@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Menu from './Menu';
-import '../../styles/content.css';
+import 'styles/Content.scss';
 
 import { Switch, Route } from 'react-router-dom';
-import { Home, User } from '../../containers';
+import { Home, User } from 'containers';
 class Content extends Component {
 	render() {
 		return (

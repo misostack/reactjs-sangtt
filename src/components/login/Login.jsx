@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Button } from 'reactstrap';
-import '../../styles/login.css';
+import Notification from 'components/notifications'
+import 'styles/Login.scss'
 
 class Login extends Component {
   constructor(props){
@@ -13,7 +14,15 @@ class Login extends Component {
   }
 
   onLogin = () => {
-    this.props.loginAction(this.state);
+    this.props.loginAction(this.state)
+    .then( res => {
+      Notification.s('redirec to home page','success')
+      this.props.history.push('/')
+    })
+    .catch( err =>  {
+      console.log(err.message)
+      Notification.e(err.message,'error')
+    })
   }
 
   forgotPass= () => {
@@ -22,21 +31,14 @@ class Login extends Component {
   signUp= () => {
     this.props.history.push('/signup');
   }
-  componentDidMount(){
-   if(this.props.login.status) this.props.history.push('/');
-  }
 
-  componentWillReceiveProps(nextProps){
-   if(nextProps.login.status) this.props.history.push('/');
-    
-  }
   render() {
     
-    let { email, password} = this.state;
-    let { login } = this.props;
+    let { email, password } = this.state;
+    let { auth } = this.props;
     return(
       <div className="loginContainer">
-        {login.loading ?<i className="fa fa-circle-o-notch fa-spin loader"></i>:
+        {auth.loading ?<i className="fa fa-circle-o-notch fa-spin loader"></i>:
 
         <div className="loginForm">
           <h1>FOTP pools</h1>
